@@ -1,72 +1,95 @@
-import React, {
-  useState,
-  useEffect,
-  Fragment,
-} from 'react';
-import ReactDOM from 'react-dom';
-import { Dropdown } from 'react-bootstrap';
+import React, { useState, useEffect, Fragment } from "react";
+import ReactDOM from "react-dom";
+import { Dropdown } from "react-bootstrap";
 
-import './styles.css';
+import "./styles.css";
 
 const list = [
   {
     id: 1,
-    name: '🧒🏻 Mans',
-    state: '✨ Mansourah',
-    city: '👑 mit-taref',
-    live: '🪖 October',
+    name: "🧒🏻 Mans",
+    state: "✨ Mansourah",
+    city: "👑 mit-taref",
+    live: "🪖 October"
   },
   {
     id: 2,
-    name: '🧒🏻 Ahmed',
-    state: '✨ Mansourah',
-    city: '👰🏻 Salhat',
-    live: '🚂 New October',
+    name: "🧒🏻 Ahmed",
+    state: "✨ Mansourah",
+    city: "👰🏻 Salhat",
+    live: "🚂 New October"
   },
   {
     id: 3,
-    name: '🧒🏻 Amr',
-    state: '✨ Mansourah',
-    city: '🦡 Darksa',
-    live: '🪖 October',
+    name: "🧒🏻 Amr",
+    state: "✨ Mansourah",
+    city: "🦡 Darksa",
+    live: "🪖 October"
   },
   {
     id: 4,
-    name: '🧒🏻 Khaled',
-    state: '🌊 Alex',
-    city: '🏄️ Sedi-beshr',
-    live: '🪖 October',
+    name: "🧒🏻 Khaled",
+    state: "🌊 Alex",
+    city: "🏄️ Sedi-beshr",
+    live: "🪖 October"
   },
   {
     id: 5,
-    name: '🧒🏻 Wezza',
-    state: '🗿 Giza',
-    city: '☘️ Hawamdiah',
-    live: '🪖 October',
+    name: "🧒🏻 Wezza",
+    state: "🗿 Giza",
+    city: "☘️ Hawamdiah",
+    live: "🪖 October"
   },
   {
     id: 6,
-    name: '🧒🏻 Mn3m',
-    state: '✨ Mansourah',
-    city: '⛓️ Mit-Salsel',
-    live: '🪖 October',
+    name: "🧒🏻 Mn3m",
+    state: "✨ Mansourah",
+    city: "⛓️ Mit-Salsel",
+    live: "🪖 October"
   },
+  {
+    id: 7,
+    name: "🧒🏻 Hana",
+    state: "✨ Alex",
+    city: "🏄️ Sedi-beshr",
+    live: "🚂 New October"
+  },
+  {
+    id: 8,
+    name: "🧒🏻 Salah",
+    state: "🗿 Giza",
+    city: "🦡 Darksa",
+    live: "🚂 New October"
+  },
+  {
+    id: 9,
+    name: "🧒🏻 Khaled",
+    state: "✨ Mansourah",
+    city: "⛓️ Mit-Salsel",
+    live: "🪖 October"
+  }
 ];
+const initVal = [];
+const initFilters = {
+  name: initVal,
+  state: initVal,
+  live: initVal
+};
 
 const getUnique = (listOfObj = [{}], obj) => {
   let uniArr = [];
   let uniStr = [];
 
   listOfObj.forEach((item) => {
-    if (obj === 'name') {
+    if (obj === "name") {
       uniArr.push(Object.values(item.name));
-    } else if (obj === 'state') {
+    } else if (obj === "state") {
       uniArr.push(Object.values(item.state));
-    } else if (obj === 'live') {
+    } else if (obj === "live") {
       uniArr.push(Object.values(item.live));
     }
   });
-  uniArr.forEach((item) => uniStr.push(item.join('')));
+  uniArr.forEach((item) => uniStr.push(item.join("")));
   const setted = new Set(uniStr);
 
   return Array.from(setted);
@@ -85,66 +108,60 @@ const Person = (props) => {
 };
 
 const Downlist = (props) => {
-  const data = props.data;
-  console.log(props);
-  console.log(props.data);
-  console.log(data);
+  const { filtered, filters, setFilters } = props;
 
+  const handleSelectName = (eventKey) => {
+    setFilters({
+      ...filters,
+      name: [eventKey]
+    });
+  };
+  const handleSelectState = (eventKey) => {
+    setFilters({
+      ...filters,
+      state: [eventKey]
+    });
+  };
+  const handleSelectLive = (eventKey) => {
+    setFilters({
+      ...filters,
+      live: [eventKey]
+    });
+  };
   return (
     <Fragment>
       {/* names list */}
-      <Dropdown
-        onSelect={(eventKey) => console.log(eventKey)}
-      >
-        <Dropdown.Toggle
-          variant={'primary'}
-          id="dropdown-basic"
-        >
-          Choose Name
+      <Dropdown onSelect={handleSelectName}>
+        <Dropdown.Toggle variant={"primary"} id="dropdown-basic">
+          {filters.name.length === 0 ? "Choose a name" : filters.name}
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          {getUnique(data, 'name').map((item) => (
-            <Dropdown.Item eventKey={item}>
-              {item}
-            </Dropdown.Item>
+          {getUnique(list, "name").map((item) => (
+            <Dropdown.Item eventKey={item}>{item}</Dropdown.Item>
           ))}
         </Dropdown.Menu>
       </Dropdown>
 
       {/* state list */}
-      <Dropdown
-        onSelect={(eventKey) => console.log(eventKey)}
-      >
-        <Dropdown.Toggle
-          variant="secondary"
-          id="dropdown-basic"
-        >
-          Choose state
+      <Dropdown onSelect={handleSelectState}>
+        <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+          {filters.state.length === 0 ? "Choose a state" : filters.state}
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          {getUnique(data, 'state').map((item) => (
-            <Dropdown.Item eventKey={item}>
-              {item}
-            </Dropdown.Item>
+          {getUnique(filtered, "state").map((item) => (
+            <Dropdown.Item eventKey={item}>{item}</Dropdown.Item>
           ))}
         </Dropdown.Menu>
       </Dropdown>
 
       {/* live list  */}
-      <Dropdown
-        onSelect={(eventKey) => console.log(eventKey)}
-      >
-        <Dropdown.Toggle
-          variant="success"
-          id="dropdown-basic"
-        >
-          Choose live
+      <Dropdown onSelect={handleSelectLive}>
+        <Dropdown.Toggle variant="success" id="dropdown-basic">
+          {filters.live.length === 0 ? "Choose a live" : filters.live}
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          {getUnique(data, 'live').map((item) => (
-            <Dropdown.Item eventKey={item}>
-              {item}
-            </Dropdown.Item>
+          {getUnique(filtered, "live").map((item) => (
+            <Dropdown.Item eventKey={item}>{item}</Dropdown.Item>
           ))}
         </Dropdown.Menu>
       </Dropdown>
@@ -152,71 +169,103 @@ const Downlist = (props) => {
   );
 };
 
-const getStr = (value = '') => value.toLowerCase();
-
 function App() {
-  const [filters, setFilters] = useState({
-    name: ['beauty', 'home', 'women'],
-    state: ['oneDollar', 'twoDollar'],
-    live: ['new-york'],
-  });
+  const [filters, setFilters] = useState(initFilters);
   const [filtered, setFiltered] = useState([]);
 
-  const name1 = list.filter((item) =>
-    filters.name.some((key) => item[key])
-  );
-  const state1 = list.filter((item) =>
-    filters.state.some((key) => item[key])
-  );
-  const live1 = list.filter((item) =>
-    filters.live.some(
-      (value) =>
-        getStr(value) === getStr(item.nearestLocation)
-    )
-  );
-
   useEffect(() => {
-    if (
-      Object.values(filters).every((a) => a.length === 0)
-    ) {
+    const nameApplied = filters.name.length === 0 ? false : true;
+    const stateApplied = filters.state.length === 0 ? false : true;
+    const liveApplied = filters.live.length === 0 ? false : true;
+
+    // Case 1 None
+    if (!nameApplied && !stateApplied && !liveApplied) {
       setFiltered(list);
-    } else if (
-      filters.name.length > 0 &&
-      filters.state.length === 0
-    ) {
+    }
+    // Case 2 => Name Only
+    else if (nameApplied && !stateApplied && !liveApplied) {
       const filterResults = list.filter((object) =>
-        filters['name'].some((key) => object[key])
-      );
-      setFiltered(filterResults);
-    } else if (
-      filters.state.length > 0 &&
-      filters.name.length === 0
-    ) {
-      const filterResults = list.filter((object) =>
-        filters['state'].some((key) => object[key])
-      );
-      setFiltered(filterResults);
-    } else if (
-      filters.name.length > 0 &&
-      filters.state.length > 0
-    ) {
-      const filterResults = list.filter(
-        (object) =>
-          filters['name'].some((key) => object[key]) &&
-          filters['state'].some((key) => object[key])
+        filters["name"].some((key) => object.name === key)
       );
       setFiltered(filterResults);
     }
-  });
+    // Case 3 => State Only
+    else if (!nameApplied && stateApplied && !liveApplied) {
+      const filterResults = list.filter((object) =>
+        filters["state"].some((key) => object.state === key)
+      );
+      setFiltered(filterResults);
+    }
+    // Case 4 => Live Only
+    else if (!nameApplied && !stateApplied && liveApplied) {
+      const filterResults = list.filter((object) =>
+        filters["live"].some((key) => object.live === key)
+      );
+      setFiltered(filterResults);
+    }
+    // Case 5 => Name & State
+    else if (nameApplied && stateApplied && !liveApplied) {
+      const filterResults = list.filter(
+        (object) =>
+          filters["name"].some((key) => object.name === key) &&
+          filters["state"].some((key) => object.state === key)
+      );
+      setFiltered(filterResults);
+    }
+    // Case 6 => Name & Live
+    else if (nameApplied && !stateApplied && liveApplied) {
+      const filterResults = list.filter(
+        (object) =>
+          filters["name"].some((key) => object.name === key) &&
+          filters["live"].some((key) => object.live === key)
+      );
+      setFiltered(filterResults);
+    }
+    // Case 7 => State & Live
+    else if (!nameApplied && stateApplied && liveApplied) {
+      const filterResults = list.filter(
+        (object) =>
+          filters["state"].some((key) => object.state === key) &&
+          filters["live"].some((key) => object.live === key)
+      );
+      setFiltered(filterResults);
+    }
+    // Case 8 => All Applied
+    else if (nameApplied && stateApplied && liveApplied) {
+      const filterResults = list.filter(
+        (object) =>
+          filters["name"].some((key) => object.name === key) &&
+          filters["state"].some((key) => object.state === key) &&
+          filters["live"].some((key) => object.live === key)
+      );
+      setFiltered(filterResults);
+    }
+
+    return () => setFiltered(initFilters);
+  }, [filters]);
 
   return (
     <Fragment>
-      <Downlist data={list} />
-      {list.map((item) => (
-        <Person data={item} />
-      ))}
+      <button onClick={() => setFilters(initFilters)}>Reset!</button>
+      <Downlist filtered={filtered} setFilters={setFilters} filters={filters} />
+      {filtered.length === 0 ? (
+        <p>No Matchs</p>
+      ) : (
+        filtered.map((item) => <Person data={item} />)
+      )}
     </Fragment>
   );
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById("root"));
+
+/* ✅❌
+// Case 1 => None         ✅ 
+// Case 2 => Name Only    ✅
+// Case 3 => State Only   ✅
+// Case 4 => Live Only    ✅
+// Case 5 => Name & State ✅
+// Case 6 => Name & Live  ✅
+// Case 7 => State & Live ✅
+// Case 8 => All          ✅
+  */
