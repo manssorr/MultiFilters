@@ -1,0 +1,20 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  border: 1px solid rosybrown;
+  justify-content: space-between;
+  margin: 2px 2px;
+}
+
+p {
+  display: inline-flex;
+  padding: 1px;
+}
+
+.list {
+  display: inline;
+}

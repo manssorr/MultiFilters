@@ -1,0 +1,21 @@
+{
+  "name": "e0iy1",
+  "version": "0.0.44",
+  "description": null,
+  "keywords": [],
+  "main": "index.js",
+  "dependencies": {
+    "react": "16.8.4",
+    "react-bootstrap": "1.0.0-beta.6",
+    "react-dom": "16.8.4"
+  },
+  "devDependencies": {
+    "react-scripts": "1.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
