@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 import ReactDOM from "react-dom";
-import { Dropdown } from "react-bootstrap";
+import { Dropdown, Button } from "react-bootstrap";
 
 import "./styles.css";
 
@@ -246,8 +246,10 @@ function App() {
 
   return (
     <Fragment>
-      <button onClick={() => setFilters(initFilters)}>Reset!</button>
       <Downlist filtered={filtered} setFilters={setFilters} filters={filters} />
+      <Button onClick={() => setFilters(initFilters)} variant="danger">
+        {"Reset 🕳️😬!"}
+      </Button>
       {filtered.length === 0 ? (
         <p>No Matchs</p>
       ) : (
