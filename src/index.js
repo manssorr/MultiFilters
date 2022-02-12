@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 import ReactDOM from "react-dom";
-import { Dropdown, Button } from "react-bootstrap";
+import { Container, Row, Col, Dropdown, Button, Table } from "react-bootstrap";
 
 import "./styles.css";
 
@@ -49,7 +49,7 @@ const list = [
   },
   {
     id: 7,
-    name: "🧒🏻 Hana",
+    name: "💃 Hana",
     state: "✨ Alex",
     city: "🏄️ Sedi-beshr",
     live: "🚂 New October"
@@ -95,6 +95,44 @@ const getUnique = (listOfObj = [{}], obj) => {
   return Array.from(setted);
 };
 
+const ResultTable = (props) => {
+  const { filtered } = props;
+
+  return (
+    <Fragment>
+      <Table striped bordered hover variant="dark">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>State</th>
+            {/* <th>City</th> */}
+            <th>Lives</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filtered.length === 0 ? (
+            <tr>
+              <td>404</td>
+              <td colSpan={4}>No Matchs</td>
+            </tr>
+          ) : (
+            filtered.map((item) => (
+              <tr>
+                <td>{item.id}</td>
+                <td>{item.name}</td>
+                <td>{item.state}</td>
+                {/* <td>{item.city}</td> */}
+                <td>{item.live}</td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </Table>
+    </Fragment>
+  );
+};
+
 const Person = (props) => {
   const { name, state, city, live } = props.data;
   return (
@@ -107,7 +145,7 @@ const Person = (props) => {
   );
 };
 
-const Downlist = (props) => {
+const Controls = (props) => {
   const { filtered, filters, setFilters } = props;
 
   const handleSelectName = (eventKey) => {
@@ -130,41 +168,57 @@ const Downlist = (props) => {
   };
   return (
     <Fragment>
-      {/* names list */}
-      <Dropdown onSelect={handleSelectName}>
-        <Dropdown.Toggle variant={"primary"} id="dropdown-basic">
-          {filters.name.length === 0 ? "Choose a name" : filters.name}
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
-          {getUnique(list, "name").map((item) => (
-            <Dropdown.Item eventKey={item}>{item}</Dropdown.Item>
-          ))}
-        </Dropdown.Menu>
-      </Dropdown>
+      <Container>
+        <Row className="justify-content-md-center">
+          <Col xs lg="2">
+            {/* names list */}
+            <Dropdown onSelect={handleSelectName}>
+              <Dropdown.Toggle variant={"primary"} id="dropdown-basic">
+                {filters.name.length === 0 ? "Choose a name" : filters.name}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {getUnique(list, "name").map((item) => (
+                  <Dropdown.Item eventKey={item}>{item}</Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+          </Col>
 
-      {/* state list */}
-      <Dropdown onSelect={handleSelectState}>
-        <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-          {filters.state.length === 0 ? "Choose a state" : filters.state}
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
-          {getUnique(filtered, "state").map((item) => (
-            <Dropdown.Item eventKey={item}>{item}</Dropdown.Item>
-          ))}
-        </Dropdown.Menu>
-      </Dropdown>
+          <Col xs lg="2">
+            {/* state list */}
+            <Dropdown onSelect={handleSelectState}>
+              <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                {filters.state.length === 0 ? "Choose a state" : filters.state}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {getUnique(filtered, "state").map((item) => (
+                  <Dropdown.Item eventKey={item}>{item}</Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+          </Col>
 
-      {/* live list  */}
-      <Dropdown onSelect={handleSelectLive}>
-        <Dropdown.Toggle variant="success" id="dropdown-basic">
-          {filters.live.length === 0 ? "Choose a live" : filters.live}
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
-          {getUnique(filtered, "live").map((item) => (
-            <Dropdown.Item eventKey={item}>{item}</Dropdown.Item>
-          ))}
-        </Dropdown.Menu>
-      </Dropdown>
+          <Col xs lg="2">
+            {/* live list  */}
+            <Dropdown onSelect={handleSelectLive}>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                {filters.live.length === 0 ? "Choose a live" : filters.live}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {getUnique(filtered, "live").map((item) => (
+                  <Dropdown.Item eventKey={item}>{item}</Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+          </Col>
+
+          <Col xs lg="2">
+            <Button onClick={() => setFilters(initFilters)} variant="danger">
+              {"🕳️ Reset!"}
+            </Button>
+          </Col>
+        </Row>
+      </Container>
     </Fragment>
   );
 };
@@ -246,15 +300,16 @@ function App() {
 
   return (
     <Fragment>
-      <Downlist filtered={filtered} setFilters={setFilters} filters={filters} />
-      <Button onClick={() => setFilters(initFilters)} variant="danger">
-        {"Reset 🕳️😬!"}
-      </Button>
-      {filtered.length === 0 ? (
+      <Controls filtered={filtered} setFilters={setFilters} filters={filters} />
+
+      {/* {filtered.length === 0 ? (
         <p>No Matchs</p>
       ) : (
         filtered.map((item) => <Person data={item} />)
-      )}
+      )} */}
+      <Container>
+        <ResultTable filtered={filtered} />
+      </Container>
     </Fragment>
   );
 }
